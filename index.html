@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>居家復能紀錄電子表單</title>
+    <style>
+        :root {
+            --primary: #4a90e2;
+            --secondary: #f5f6fa;
+            --text: #2d3436;
+            --border: #dfe6e9;
+            --success: #00b894;
+            --danger: #d63031;
+            --purple: #a55eea;
+        }
+        
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #eef2f5;
+            color: var(--text);
+            margin: 0;
+            padding: 20px 10px 80px 10px; /* Bottom padding for fixed footer */
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: #2c3e50;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-header.c-code { color: var(--danger); border-bottom-color: #fab1a0; }
+        .card-header.spiritual { color: var(--purple); border-bottom-color: #e1b12c; }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: #636e72;
+        }
+
+        input[type="text"], 
+        input[type="number"], 
+        select, 
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 16px; /* Prevents zoom on iOS */
+            background-color: #fff;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .vitals-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .tag {
+            background-color: var(--secondary);
+            color: var(--text);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        .tag:active {
+            transform: scale(0.95);
+            background-color: #dcdde1;
+        }
+
+        .tag.selected {
+            background-color: #dff9fb;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Fixed Bottom Action Bar */
+        .action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-preview {
+            background-color: var(--secondary);
+            color: var(--text);
+        }
+
+        .btn-copy {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Modal for Preview */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            padding: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            max-height: 80vh;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .modal-body {
+            padding: 15px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: monospace;
+            background-color: #f8f9fa;
+            font-size: 0.9rem;
+        }
+
+        .modal-footer {
+            padding: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>📝 居家復能紀錄</h1>
+            <p style="color: #636e72; font-size: 0.9rem;">手機友善版 • 點擊標籤快速輸入</p>
+        </div>
+
+        <!-- S: 主訴 -->
+        <div class="card">
+            <div class="card-header">S (主訴)</div>
+            <div class="form-group">
+                <label>精神與配合度</label>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('s_mood', '精神佳，配合度高')">精神佳</span>
+                    <span class="tag" onclick="addText('s_mood', '精神尚可，配合度普通')">精神尚可</span>
+                    <span class="tag" onclick="addText('s_mood', '精神差，易疲倦')">精神差</span>
+                    <span class="tag" onclick="addText('s_mood', '疼痛主訴，影響活動')">疼痛</span>
+                </div>
+                <textarea id="s_mood" rows="2" placeholder="輸入主訴..."></textarea>
+            </div>
+        </div>
+
+        <!-- O: 客觀數據 -->
+        <div class="card">
+            <div class="card-header">O (客觀數據)</div>
+            <div class="form-group">
+                <label>生命徵象</label>
+                <div class="vitals-row">
+                    <input type="text" id="bp" placeholder="血壓 mmHg">
+                    <input type="text" id="hr" placeholder="心跳 bpm">
+                </div>
+                <div class="vitals-row" style="margin-top: 10px;">
+                    <input type="text" id="spo2" placeholder="血氧 %">
+                    <button type="button" onclick="setVitals('沒有量')" style="padding: 0 15px; background: #dfe6e9; border:none; border-radius: 8px;">未測量</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>訓練內容</label>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('o_activity', '坐姿平衡訓練')">坐姿平衡</span>
+                    <span class="tag" onclick="addText('o_activity', '站立耐力訓練')">站立耐力</span>
+                    <span class="tag" onclick="addText('o_activity', '下肢肌力強化')">下肢肌力</span>
+                    <span class="tag" onclick="addText('o_activity', '室內行走訓練')">室內行走</span>
+                    <span class="tag" onclick="addText('o_activity', '上下樓梯練習')">上下樓梯</span>
+                    <span class="tag" onclick="addText('o_activity', 'ROM運動')">ROM</span>
+                </div>
+                <textarea id="o_activity" rows="3" placeholder="輸入訓練內容..."></textarea>
+            </div>
+        </div>
+
+        <!-- A: 評估 -->
+        <div class="card">
+            <div class="card-header">A (評估)</div>
+            <div class="form-group">
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('a_assessment', '功能維持，狀況穩定')">狀況穩定</span>
+                    <span class="tag" onclick="addText('a_assessment', '肌力與耐力較上次進步')">肌力進步</span>
+                    <span class="tag" onclick="addText('a_assessment', '動作控制能力提升')">控制提升</span>
+                    <span class="tag" onclick="addText('a_assessment', '今日體力較差')">體力差</span>
+                    <span class="tag" onclick="addText('a_assessment', '平衡感需加強')">平衡差</span>
+                </div>
+                <textarea id="a_assessment" rows="3" placeholder="整體評估..."></textarea>
+            </div>
+        </div>
+
+        <!-- C碼申報 (必填) -->
+        <div class="card" style="border-left: 5px solid var(--danger);">
+            <div class="card-header c-code">🏗️ C碼申報 (必填)</div>
+            
+            <div class="form-group">
+                <label>復能目標達成情形</label>
+                <select id="c_status">
+                    <option value="尚未滿1照顧組合之次數">尚未滿1照顧組合之次數</option>
+                    <option value="已滿1照顧組合之次數,且已達目標">已滿1照顧組合...且已達標</option>
+                    <option value="已滿1照顧組合之次數,但尚未達目標">已滿1照顧組合...但未達標</option>
+                    <option value="未滿1照顧組合之次數,且已達目標">未滿1照顧組合...且已達標</option>
+                    <option value="未滿1照顧組合之次數,但尚未達目標">未滿1照顧組合...但未達標</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>復能目標 (請依個案等級選擇)</label>
+                
+                <div style="margin-bottom: 10px; border-bottom: 1px dashed #ddd; padding-bottom: 8px;">
+                    <label style="font-size: 0.85rem; color: #2ecc71;">🟢 長照等級 2-3 級 (輕度)</label>
+                    <div class="tag-container">
+                        <span class="tag" onclick="addText('c_goal', '外出參與社區活動')">參與社區</span>
+                        <span class="tag" onclick="addText('c_goal', '可自行備餐與進食')">自行備餐</span>
+                        <span class="tag" onclick="addText('c_goal', '使用輔具獨立行走50公尺')">行走50M</span>
+                        <span class="tag" onclick="addText('c_goal', '可自行上下樓梯')">上下樓梯</span>
+                        <span class="tag" onclick="addText('c_goal', '獨立完成沐浴更衣')">沐浴更衣</span>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 10px; border-bottom: 1px dashed #ddd; padding-bottom: 8px;">
+                    <label style="font-size: 0.85rem; color: #f39c12;">🟠 長照等級 4-6 級 (中度)</label>
+                    <div class="tag-container">
+                        <span class="tag" onclick="addText('c_goal', '可自行翻身坐起')">翻身坐起</span>
+                        <span class="tag" onclick="addText('c_goal', '維持站立平衡3分鐘')">站立3分</span>
+                        <span class="tag" onclick="addText('c_goal', '協助下完成如廁')">協助如廁</span>
+                        <span class="tag" onclick="addText('c_goal', '室內使用助行器行走10公尺')">行走10M</span>
+                        <span class="tag" onclick="addText('c_goal', '由床轉位至輪椅(需部分協助)')">轉位(部分)</span>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 10px;">
+                    <label style="font-size: 0.85rem; color: #e74c3c;">🔴 長照等級 7-8 級 (重度)</label>
+                    <div class="tag-container">
+                        <span class="tag" onclick="addText('c_goal', '維持關節活動度(避免攣縮)')">避免攣縮</span>
+                        <span class="tag" onclick="addText('c_goal', '配合翻身拍背(降低壓傷)')">配合翻身</span>
+                        <span class="tag" onclick="addText('c_goal', '可維持坐姿15分鐘')">坐姿15分</span>
+                        <span class="tag" onclick="addText('c_goal', '提升照顧者轉位技巧(減輕負擔)')">家屬轉位</span>
+                        <span class="tag" onclick="addText('c_goal', '增加環境刺激反應')">增加反應</span>
+                    </div>
+                </div>
+
+                <textarea id="c_goal" rows="2" placeholder="點擊上方標籤選擇目標..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>指導對象</label>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('c_target', '個案本人')">個案</span>
+                    <span class="tag" onclick="addText('c_target', '主要照顧者(家屬)')">家屬</span>
+                    <span class="tag" onclick="addText('c_target', '外籍看護')">外籍看護</span>
+                </div>
+                <input type="text" id="c_target" placeholder="指導對象">
+            </div>
+
+            <div class="form-group">
+                <label>服務內容</label>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('c_content', '執行復能肌力訓練')">肌力訓練</span>
+                    <span class="tag" onclick="addText('c_content', '指導平衡與協調')">平衡運動</span>
+                    <span class="tag" onclick="addText('c_content', '步態矯正與行走')">行走訓練</span>
+                    <span class="tag" onclick="addText('c_content', '輔具使用指導')">輔具指導</span>
+                </div>
+                <textarea id="c_content" rows="2" placeholder="服務內容..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>指導建議摘要</label>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('c_suggestion', '請家屬督促每日練習')">督促練習</span>
+                    <span class="tag" onclick="addText('c_suggestion', '注意防跌與環境安全')">防跌安全</span>
+                    <span class="tag" onclick="addText('c_suggestion', '建議使用合適輔具')">建議輔具</span>
+                </div>
+                <textarea id="c_suggestion" rows="2" placeholder="給家屬的建議..."></textarea>
+            </div>
+        </div>
+
+        <!-- 靈性關懷 (選填) -->
+        <div class="card" style="border-left: 5px solid var(--purple);">
+            <div class="card-header spiritual">🕊️ 靈性關懷 (選填)</div>
+            
+            <div class="form-group">
+                <label>評估面向 & 階段</label>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('spirit_dim', '生命意義')">生命意義</span>
+                    <span class="tag" onclick="addText('spirit_dim', '愛')">愛</span>
+                    <span class="tag" onclick="addText('spirit_dim', '寬恕')">寬恕</span>
+                    <span class="tag" onclick="addText('spirit_dim', '信仰')">信仰</span>
+                    <span class="tag" onclick="addText('spirit_dim', '盼望')">盼望</span>
+                </div>
+                <input type="text" id="spirit_dim" placeholder="面向...">
+                <select id="spirit_stage" style="margin-top: 10px;">
+                    <option value="">-- 選擇階段 --</option>
+                    <option value="第一階段：發現與承認">第一階段：發現與承認</option>
+                    <option value="第二階段：深入探索">第二階段：深入探索</option>
+                    <option value="第三階段：找到解決方法">第三階段：找到解決方法</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>互動紀錄</label>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('spirit_note', '生命回顧')">生命回顧</span>
+                    <span class="tag" onclick="addText('spirit_note', '道謝道愛')">道謝道愛</span>
+                    <span class="tag" onclick="addText('spirit_note', '信仰支持')">信仰支持</span>
+                </div>
+                <textarea id="spirit_note" rows="2" placeholder="靈性互動紀錄..."></textarea>
+            </div>
+        </div>
+        
+        <!-- P: 計畫 -->
+        <div class="card">
+            <div class="card-header">P (計畫)</div>
+            <div class="form-group">
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('p_plan', '持續目前復能計畫')">持續計畫</span>
+                    <span class="tag" onclick="addText('p_plan', '加強居家自主練習')">加強練習</span>
+                </div>
+                <textarea id="p_plan" rows="2" placeholder="後續計畫..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Bar -->
+    <div class="action-bar">
+        <button class="btn btn-preview" onclick="showPreview()">👀 預覽</button>
+        <button class="btn btn-copy" onclick="copyResult()">📋 複製</button>
+    </div>
+
+    <!-- Modal -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>預覽結果</span>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="previewContent"></div>
+            <div class="modal-footer">
+                <button class="btn btn-copy" onclick="copyResult()">確認並複製</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addText(elementId, text) {
+            const el = document.getElementById(elementId);
+            if (el.value) {
+                // Check if text already exists to prevent duplicate tags
+                if (!el.value.includes(text)) {
+                    el.value += (elementId === 'spirit_dim' ? '、' : '\n') + text;
+                }
+            } else {
+                el.value = text;
+            }
+        }
+
+        function setVitals(value) {
+            document.getElementById('bp').value = value;
+            document.getElementById('hr').value = value;
+            document.getElementById('spo2').value = value;
+        }
+
+        function generateContent() {
+            const date = new Date().toLocaleDateString('zh-TW');
+            
+            // Get all values
+            const s = document.getElementById('s_mood').value;
+            const bp = document.getElementById('bp').value || '--';
+            const hr = document.getElementById('hr').value || '--';
+            const spo2 = document.getElementById('spo2').value || '--';
+            const o = document.getElementById('o_activity').value;
+            const a = document.getElementById('a_assessment').value;
+            
+            const c_status = document.getElementById('c_status').value;
+            const c_goal = document.getElementById('c_goal').value || '--';
+            const c_target = document.getElementById('c_target').value || '--';
+            const c_content = document.getElementById('c_content').value || '--';
+            const c_suggestion = document.getElementById('c_suggestion').value || '--';
+            
+            const spirit_dim = document.getElementById('spirit_dim').value;
+            const spirit_stage = document.getElementById('spirit_stage').value;
+            const spirit_note = document.getElementById('spirit_note').value;
+            
+            const p = document.getElementById('p_plan').value;
+
+            // Build Spiritual Section
+            let spirit_section = '';
+            if (spirit_dim || spirit_stage || spirit_note) {
+                spirit_section = `\n【🕊️ 靈性關懷】：\n- 面向：${spirit_dim || '未標記'}\n- 階段：${spirit_stage || '未標記'}\n- 紀錄：${spirit_note || '無'}\n`;
+            }
+
+            // Build Final Text
+            return `【日期】：${date}
+【S】：
+${s}
+
+【O】：
+- BP: ${bp}, HR: ${hr}, SpO2: ${spo2}%
+- 訓練：
+${o}
+
+【A】：
+${a}
+
+【C碼申報】：
+- 達成情形：${c_status}
+- 目標：${c_goal}
+- 對象：${c_target}
+- 內容：${c_content}
+- 建議：${c_suggestion}${spirit_section}
+
+【P】：
+${p}`;
+        }
+
+        function showPreview() {
+            const content = generateContent();
+            document.getElementById('previewContent').innerText = content;
+            document.getElementById('previewModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('previewModal').style.display = 'none';
+        }
+
+        function copyResult() {
+            const content = generateContent();
+            navigator.clipboard.writeText(content).then(() => {
+                alert('已複製到剪貼簿！');
+                closeModal();
+            }).catch(err => {
+                console.error('複製失敗:', err);
+                alert('複製失敗，請手動複製預覽文字。');
+            });
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('previewModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
