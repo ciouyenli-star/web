@@ -513,6 +513,46 @@
                         <span class="tag reflection-tag" onclick="addText('c2', '了解個案的宗教禁忌')">了解宗教禁忌</span>
                         <span class="tag reflection-tag" onclick="addText('c2', '評估信仰對醫療決策的影響')">信仰影響決策</span>
                     </div>
+                    <!-- FICA 工具提示卡 -->
+                    <div style="margin-top: 10px; background-color: #fff3e0; padding: 10px; border-radius: 8px; border: 1px dashed #ffb74d;">
+                        <div style="font-size: 0.85rem; font-weight: bold; color: #e65100; margin-bottom: 5px;">🛠️ FICA 靈性評估問句：</div>
+                        
+                        <div style="margin-bottom: 8px;">
+                            <span style="font-weight:bold; color:#ef6c00;">F (Faith) 信仰與信念:</span>
+                            <div class="tag-container" style="margin-top:3px;">
+                                <span class="tag" style="background:white; border:1px solid #ffcc80; color:#ef6c00;" onclick="addText('c2', '問:您認為自己有靈性或宗教信仰嗎？')">有信仰嗎?</span>
+                                <span class="tag" style="background:white; border:1px solid #ffcc80; color:#ef6c00;" onclick="addText('c2', '問:什麼讓您的生活有意義？')">生活意義?</span>
+                                <span class="tag" style="background:white; border:1px solid #ffcc80; color:#ef6c00;" onclick="addText('c2', '問:請形容您心中的神？')">形容心中的神</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 8px;">
+                            <span style="font-weight:bold; color:#ef6c00;">I (Importance) 重要性:</span>
+                            <div class="tag-container" style="margin-top:3px;">
+                                <span class="tag" style="background:white; border:1px solid #ffcc80; color:#ef6c00;" onclick="addText('c2', '問:信仰在您的生活中有多重要？')">信仰重要性?</span>
+                                <span class="tag" style="background:white; border:1px solid #ffcc80; color:#ef6c00;" onclick="addText('c2', '問:信仰是否影響了您的自我照顧？')">影響自我照顧?</span>
+                                <span class="tag" style="background:white; border:1px solid #ffcc80; color:#ef6c00;" onclick="addText('c2', '問:信仰在恢復健康中扮演什麼角色？')">恢復健康的角色?</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 8px;">
+                            <span style="font-weight:bold; color:#ef6c00;">C (Community) 社群:</span>
+                            <div class="tag-container" style="margin-top:3px;">
+                                <span class="tag" style="background:white; border:1px solid #ffcc80; color:#ef6c00;" onclick="addText('c2', '問:您是宗教社群的一份子嗎？')">社群一份子?</span>
+                                <span class="tag" style="background:white; border:1px solid #ffcc80; color:#ef6c00;" onclick="addText('c2', '問:這對您有何幫助？')">有何幫助?</span>
+                                <span class="tag" style="background:white; border:1px solid #ffcc80; color:#ef6c00;" onclick="addText('c2', '問:在信仰上有誰給你支持？')">誰給支持?</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span style="font-weight:bold; color:#ef6c00;">A (Address) 關懷處理:</span>
+                            <div class="tag-container" style="margin-top:3px;">
+                                <span class="tag" style="background:white; border:1px solid #ffcc80; color:#ef6c00;" onclick="addText('c2', '問:您希望我如何處理這些問題？')">希望我如何處理?</span>
+                                <span class="tag" style="background:white; border:1px solid #ffcc80; color:#ef6c00;" onclick="addText('c2', '問:我可以如何在信仰中給你支持？')">如何給你支持?</span>
+                                <span class="tag" style="background:white; border:1px solid #ffcc80; color:#ef6c00;" onclick="addText('c2', '問:你想聽聖詩或聖經CD嗎？')">想聽聖詩/讀經?</span>
+                            </div>
+                        </div>
+                    </div>
                     <textarea id="c2" rows="2" placeholder="反思紀錄..."></textarea>
                 </div>
 
@@ -542,6 +582,17 @@
                         <span class="tag reflection-tag" onclick="addText('c5', '運用開放式問句')">開放式問句</span>
                         <span class="tag reflection-tag" onclick="addText('c5', '適當的沉默與停頓')">適當沉默</span>
                         <span class="tag reflection-tag" onclick="addText('c5', '核對與澄清語意')">核對澄清</span>
+                    </div>
+                    <!-- 生命意義探索提問 (參考 CADENZA Training) -->
+                    <div style="margin-top: 10px; background-color: #e8f5e9; padding: 10px; border-radius: 8px; border: 1px dashed #66bb6a;">
+                        <div style="font-size: 0.85rem; font-weight: bold; color: #2e7d32; margin-bottom: 5px;">🌱 尋找意義的提問 (參考話術)：</div>
+                        <div class="tag-container">
+                            <span class="tag" style="background: white; border: 1px solid #81c784; color: #2e7d32;" onclick="addText('c5', '問:在過去的日子，你如何處理困難？')">如何處理困難?</span>
+                            <span class="tag" style="background: white; border: 1px solid #81c784; color: #2e7d32;" onclick="addText('c5', '問:什麼能給你最大的安慰？')">最大安慰是什麼?</span>
+                            <span class="tag" style="background: white; border: 1px solid #81c784; color: #2e7d32;" onclick="addText('c5', '問:如何才可以建立你面對困難的能力？')">建立面對能力?</span>
+                            <span class="tag" style="background: white; border: 1px solid #81c784; color: #2e7d32;" onclick="addText('c5', '問:現時有什麼可以給予你安慰？')">現時安慰來源?</span>
+                            <span class="tag" style="background: white; border: 1px solid #81c784; color: #2e7d32;" onclick="addText('c5', '縱使醫生說是晚期，但在這困境中，我們仍有很多可以做的。')">仍有很多可做的</span>
+                        </div>
                     </div>
                     <textarea id="c5" rows="2" placeholder="反思紀錄..."></textarea>
                 </div>
