@@ -348,39 +348,6 @@
                 <textarea id="c_suggestion" rows="2" placeholder="給家屬的建議..."></textarea>
             </div>
         </div>
-
-        <!-- 靈性關懷 (選填) -->
-        <div class="card" style="border-left: 5px solid var(--purple);">
-            <div class="card-header spiritual">🕊️ 靈性關懷 (選填)</div>
-            
-            <div class="form-group">
-                <label>評估面向 & 階段</label>
-                <div class="tag-container">
-                    <span class="tag" onclick="addText('spirit_dim', '生命意義')">生命意義</span>
-                    <span class="tag" onclick="addText('spirit_dim', '愛')">愛</span>
-                    <span class="tag" onclick="addText('spirit_dim', '寬恕')">寬恕</span>
-                    <span class="tag" onclick="addText('spirit_dim', '信仰')">信仰</span>
-                    <span class="tag" onclick="addText('spirit_dim', '盼望')">盼望</span>
-                </div>
-                <input type="text" id="spirit_dim" placeholder="面向...">
-                <select id="spirit_stage" style="margin-top: 10px;">
-                    <option value="">-- 選擇階段 --</option>
-                    <option value="第一階段：發現與承認">第一階段：發現與承認</option>
-                    <option value="第二階段：深入探索">第二階段：深入探索</option>
-                    <option value="第三階段：找到解決方法">第三階段：找到解決方法</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label>互動紀錄</label>
-                <div class="tag-container">
-                    <span class="tag" onclick="addText('spirit_note', '生命回顧')">生命回顧</span>
-                    <span class="tag" onclick="addText('spirit_note', '道謝道愛')">道謝道愛</span>
-                    <span class="tag" onclick="addText('spirit_note', '信仰支持')">信仰支持</span>
-                </div>
-                <textarea id="spirit_note" rows="2" placeholder="靈性互動紀錄..."></textarea>
-            </div>
-        </div>
         
         <!-- P: 計畫 -->
         <div class="card">
@@ -397,7 +364,6 @@
 
     <!-- Action Bar -->
     <div class="action-bar">
-        <a href="chart.html" class="btn" style="background-color: #7f8c8d; color: white; text-decoration: none; display: flex; align-items: center; justify-content: center;">📊 查看圖表</a>
         <button class="btn btn-preview" onclick="showPreview()">👀 預覽</button>
         <button class="btn btn-copy" onclick="copyResult()">📋 複製</button>
     </div>
