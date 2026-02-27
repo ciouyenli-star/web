@@ -121,6 +121,7 @@
 
         input[type="text"], 
         input[type="number"], 
+        input[type="date"],
         select, 
         textarea {
             width: 100%;
@@ -301,6 +302,12 @@
 
         <!-- ==================== 復能紀錄區塊 (Record Section) ==================== -->
         <div id="section-record" class="content-section active">
+            <!-- 日期選擇 -->
+            <div class="form-group">
+                <label>日期</label>
+                <input type="date" id="recordDate">
+            </div>
+
             <!-- S: 主訴 -->
             <div class="card">
                 <div class="card-header">S (主訴)</div>
@@ -313,6 +320,39 @@
                         <span class="tag" onclick="addText('s_mood', '疼痛主訴，影響活動')">疼痛</span>
                     </div>
                     <textarea id="s_mood" rows="2" placeholder="輸入主訴..."></textarea>
+                </div>
+            </div>
+
+            <!-- 靈性關懷 (選填) -->
+            <div class="card" style="border-left: 5px solid var(--purple);">
+                <div class="card-header spiritual">🕊️ 靈性關懷 (選填)</div>
+                
+                <div class="form-group">
+                    <label>評估面向 & 階段</label>
+                    <div class="tag-container">
+                        <span class="tag" onclick="addText('spirit_dim', '生命意義')">生命意義</span>
+                        <span class="tag" onclick="addText('spirit_dim', '愛')">愛</span>
+                        <span class="tag" onclick="addText('spirit_dim', '寬恕')">寬恕</span>
+                        <span class="tag" onclick="addText('spirit_dim', '信仰')">信仰</span>
+                        <span class="tag" onclick="addText('spirit_dim', '盼望')">盼望</span>
+                    </div>
+                    <input type="text" id="spirit_dim" placeholder="面向...">
+                    <select id="spirit_stage" style="margin-top: 10px;">
+                        <option value="">-- 選擇階段 --</option>
+                        <option value="第一階段：發現與承認">第一階段：發現與承認</option>
+                        <option value="第二階段：深入探索">第二階段：深入探索</option>
+                        <option value="第三階段：找到解決方法">第三階段：找到解決方法</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>互動紀錄</label>
+                    <div class="tag-container">
+                        <span class="tag" onclick="addText('spirit_note', '生命回顧')">生命回顧</span>
+                        <span class="tag" onclick="addText('spirit_note', '道謝道愛')">道謝道愛</span>
+                        <span class="tag" onclick="addText('spirit_note', '信仰支持')">信仰支持</span>
+                    </div>
+                    <textarea id="spirit_note" rows="2" placeholder="靈性互動紀錄..."></textarea>
                 </div>
             </div>
 
@@ -341,6 +381,18 @@
                         <span class="tag" onclick="addText('o_activity', 'ROM運動')">ROM</span>
                     </div>
                     <textarea id="o_activity" rows="3" placeholder="輸入訓練內容..."></textarea>
+                </div>
+            </div>
+            
+            <!-- P: 計畫 -->
+            <div class="card">
+                <div class="card-header">P (計畫)</div>
+                <div class="form-group">
+                    <div class="tag-container">
+                        <span class="tag" onclick="addText('p_plan', '持續目前復能計畫')">持續計畫</span>
+                        <span class="tag" onclick="addText('p_plan', '加強居家自主練習')">加強練習</span>
+                    </div>
+                    <textarea id="p_plan" rows="2" placeholder="後續計畫..."></textarea>
                 </div>
             </div>
 
@@ -435,61 +487,55 @@
                 </div>
 
                 <div class="form-group">
-                    <label>指導建議摘要</label>
+                    <label>指導建議摘要 (回家功課)</label>
                     <div class="tag-container">
                         <span class="tag" onclick="addText('c_suggestion', '請家屬督促每日練習')">督促練習</span>
                         <span class="tag" onclick="addText('c_suggestion', '注意防跌與環境安全')">防跌安全</span>
                         <span class="tag" onclick="addText('c_suggestion', '建議使用合適輔具')">建議輔具</span>
                     </div>
-                    <textarea id="c_suggestion" rows="2" placeholder="給家屬的建議..."></textarea>
-                </div>
-            </div>
 
-            <!-- 靈性關懷 (選填) -->
-            <div class="card" style="border-left: 5px solid var(--purple);">
-                <div class="card-header spiritual">🕊️ 靈性關懷 (選填)</div>
-                
-                <div class="form-group">
-                    <label>評估面向 & 階段</label>
-                    <div class="tag-container">
-                        <span class="tag" onclick="addText('spirit_dim', '生命意義')">生命意義</span>
-                        <span class="tag" onclick="addText('spirit_dim', '愛')">愛</span>
-                        <span class="tag" onclick="addText('spirit_dim', '寬恕')">寬恕</span>
-                        <span class="tag" onclick="addText('spirit_dim', '信仰')">信仰</span>
-                        <span class="tag" onclick="addText('spirit_dim', '盼望')">盼望</span>
+                    <!-- FITT 有氧體適能指引 -->
+                    <div style="margin-top: 10px; background-color: #fff8e1; padding: 10px; border-radius: 8px; border: 1px dashed #ffb74d;">
+                        <div style="font-size: 0.85rem; font-weight: bold; color: #ef6c00; margin-bottom: 5px;">❤️ 有氧/健康體適能 FITT 建議：</div>
+                        
+                        <div style="margin-bottom: 5px;">
+                            <span style="font-weight:bold; color:#f57c00;">F 頻率 (Frequency):</span>
+                            <div class="tag-container" style="margin-top:3px;">
+                                <span class="tag" style="background:white; border:1px solid #ffe0b2; color:#ef6c00;" onclick="addText('c_suggestion', '頻率：每週至少 3-5 天')">每週3-5天</span>
+                                <span class="tag" style="background:white; border:1px solid #ffe0b2; color:#ef6c00;" onclick="addText('c_suggestion', '頻率：每日進行')">每日</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 5px;">
+                            <span style="font-weight:bold; color:#f57c00;">I 強度 (Intensity):</span>
+                            <div class="tag-container" style="margin-top:3px;">
+                                <span class="tag" style="background:white; border:1px solid #ffe0b2; color:#ef6c00;" onclick="addText('c_suggestion', '強度：中等強度 (RPE 12-13, 有點喘但可說話)')">中等(微喘)</span>
+                                <span class="tag" style="background:white; border:1px solid #ffe0b2; color:#ef6c00;" onclick="addText('c_suggestion', '強度：低強度 (RPE 9-11, 輕鬆不費力)')">低強度(輕鬆)</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 5px;">
+                            <span style="font-weight:bold; color:#f57c00;">T 時間 (Time):</span>
+                            <div class="tag-container" style="margin-top:3px;">
+                                <span class="tag" style="background:white; border:1px solid #ffe0b2; color:#ef6c00;" onclick="addText('c_suggestion', '時間：每次 20-60 分鐘')">20-60分</span>
+                                <span class="tag" style="background:white; border:1px solid #ffe0b2; color:#ef6c00;" onclick="addText('c_suggestion', '時間：分段累積 (每次10分 x 3回)')">分段累積</span>
+                                <span class="tag" style="background:white; border:1px solid #ffe0b2; color:#ef6c00;" onclick="addText('c_suggestion', '時間：每週累積至少 150 分鐘')">週累積150分</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span style="font-weight:bold; color:#f57c00;">T 類型 (Type):</span>
+                            <div class="tag-container" style="margin-top:3px;">
+                                <span class="tag" style="background:white; border:1px solid #ffe0b2; color:#ef6c00;" onclick="addText('c_suggestion', '項目：大肌肉群韻律性運動 (如健走)')">健走</span>
+                                <span class="tag" style="background:white; border:1px solid #ffe0b2; color:#ef6c00;" onclick="addText('c_suggestion', '項目：固定式腳踏車')">腳踏車</span>
+                                <span class="tag" style="background:white; border:1px solid #ffe0b2; color:#ef6c00;" onclick="addText('c_suggestion', '項目：上下肢主動關節活動')">主動活動</span>
+                            </div>
+                        </div>
                     </div>
-                    <input type="text" id="spirit_dim" placeholder="面向...">
-                    <select id="spirit_stage" style="margin-top: 10px;">
-                        <option value="">-- 選擇階段 --</option>
-                        <option value="第一階段：發現與承認">第一階段：發現與承認</option>
-                        <option value="第二階段：深入探索">第二階段：深入探索</option>
-                        <option value="第三階段：找到解決方法">第三階段：找到解決方法</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>互動紀錄</label>
-                    <div class="tag-container">
-                        <span class="tag" onclick="addText('spirit_note', '生命回顧')">生命回顧</span>
-                        <span class="tag" onclick="addText('spirit_note', '道謝道愛')">道謝道愛</span>
-                        <span class="tag" onclick="addText('spirit_note', '信仰支持')">信仰支持</span>
-                    </div>
-                    <textarea id="spirit_note" rows="2" placeholder="靈性互動紀錄..."></textarea>
-                </div>
-            </div>
-            
-            <!-- P: 計畫 -->
-            <div class="card">
-                <div class="card-header">P (計畫)</div>
-                <div class="form-group">
-                    <div class="tag-container">
-                        <span class="tag" onclick="addText('p_plan', '持續目前復能計畫')">持續計畫</span>
-                        <span class="tag" onclick="addText('p_plan', '加強居家自主練習')">加強練習</span>
-                    </div>
-                    <textarea id="p_plan" rows="2" placeholder="後續計畫..."></textarea>
+
+                    <textarea id="c_suggestion" rows="3" placeholder="請詳細列出回家功課 (項目、次數、頻率)..."></textarea>
                 </div>
             </div>
-        </div>
 
         <!-- ==================== 自我反思區塊 (Reflection Section) ==================== -->
         <div id="section-reflection" class="content-section">
@@ -730,7 +776,15 @@
         }
 
         function generateRecordContent() {
-            const date = new Date().toLocaleDateString('zh-TW');
+            let date = '';
+            const dateInput = document.getElementById('recordDate').value;
+            if (dateInput) {
+                // Convert YYYY-MM-DD to YYYY/MM/DD
+                date = dateInput.replace(/-/g, '/');
+            } else {
+                date = new Date().toLocaleDateString('zh-TW');
+            }
+            
             const s = document.getElementById('s_mood').value;
             const bp = document.getElementById('bp').value || '--';
             const hr = document.getElementById('hr').value || '--';
@@ -833,6 +887,15 @@ ${p}`;
                 closeModal();
             }
         }
+
+        // Initialize date picker to today
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            document.getElementById('recordDate').value = `${yyyy}-${mm}-${dd}`;
+        });
     </script>
 </body>
 </html>

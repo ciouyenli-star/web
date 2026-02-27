@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>靈性關懷自我反思表</title>
+    <style>
+        :root {
+            --primary: #a55eea;
+            --secondary: #f3e5f5;
+            --text: #2d3436;
+            --border: #e1b12c;
+        }
+        
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fcf4fc;
+            color: var(--text);
+            margin: 0;
+            padding: 20px 10px 80px 10px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: #6c5ce7;
+        }
+        
+        .header p {
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary);
+        }
+
+        .card-header {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+            color: #6c5ce7;
+        }
+
+        .competency-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .competency-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2d3436;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .tag {
+            background-color: var(--secondary);
+            color: #6c5ce7;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: 1px solid #e1bee7;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        .tag:active {
+            transform: scale(0.95);
+            background-color: #d1c4e9;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #fff;
+        }
+
+        .action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-back {
+            background-color: #b2bec3;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-copy {
+            background-color: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>🕊️ 靈性關懷自我反思</h1>
+            <p>EAPC 10 項核心能力檢核表</p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">核心能力自我檢視</div>
+            
+            <div class="competency-item">
+                <div class="competency-title">1. 辨識靈性需求</div>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('c1', '已主動詢問個案信仰')">主動詢問信仰</span>
+                    <span class="tag" onclick="addText('c1', '觀察到個案的非語言訊號')">觀察非語言訊號</span>
+                    <span class="tag" onclick="addText('c1', '察覺個案的靈性困擾')">察覺靈性困擾</span>
+                </div>
+                <textarea id="c1" rows="2" placeholder="反思紀錄..."></textarea>
+            </div>
+
+            <div class="competency-item">
+                <div class="competency-title">2. 評估靈性與宗教</div>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('c2', '使用FICA工具評估')">使用FICA工具</span>
+                    <span class="tag" onclick="addText('c2', '了解個案的宗教禁忌')">了解宗教禁忌</span>
+                    <span class="tag" onclick="addText('c2', '評估信仰對醫療決策的影響')">信仰影響決策</span>
+                </div>
+                <textarea id="c2" rows="2" placeholder="反思紀錄..."></textarea>
+            </div>
+
+            <div class="competency-item">
+                <div class="competency-title">3. 尊重文化與價值</div>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('c3', '尊重個案的價值觀')">尊重價值觀</span>
+                    <span class="tag" onclick="addText('c3', '不將個人信仰強加於人')">不強加信仰</span>
+                    <span class="tag" onclick="addText('c3', '接納多元文化差異')">接納文化差異</span>
+                </div>
+                <textarea id="c3" rows="2" placeholder="反思紀錄..."></textarea>
+            </div>
+            
+            <div class="competency-item">
+                <div class="competency-title">4. 展現同理心</div>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('c4', '專注傾聽')">專注傾聽</span>
+                    <span class="tag" onclick="addText('c4', '同理回應個案情緒')">同理回應</span>
+                    <span class="tag" onclick="addText('c4', '提供陪伴與支持')">提供陪伴</span>
+                </div>
+                <textarea id="c4" rows="2" placeholder="反思紀錄..."></textarea>
+            </div>
+
+            <div class="competency-item">
+                <div class="competency-title">5. 運用溝通技巧</div>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('c5', '運用開放式問句')">開放式問句</span>
+                    <span class="tag" onclick="addText('c5', '適當的沉默與停頓')">適當沉默</span>
+                    <span class="tag" onclick="addText('c5', '核對與澄清語意')">核對澄清</span>
+                </div>
+                <textarea id="c5" rows="2" placeholder="反思紀錄..."></textarea>
+            </div>
+
+            <div class="competency-item">
+                <div class="competency-title">6. 自我覺察與反思</div>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('c6', '覺察自身情緒反應')">覺察自身情緒</span>
+                    <span class="tag" onclick="addText('c6', '反思個人的靈性議題')">反思個人議題</span>
+                    <span class="tag" onclick="addText('c6', '避免過度涉入或抽離')">保持專業界線</span>
+                </div>
+                <textarea id="c6" rows="2" placeholder="反思紀錄..."></textarea>
+            </div>
+
+            <div class="competency-item">
+                <div class="competency-title">7. 團隊合作與轉介</div>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('c7', '與跨專業團隊討論')">跨專業討論</span>
+                    <span class="tag" onclick="addText('c7', '適時轉介靈性關懷師')">轉介靈性師</span>
+                    <span class="tag" onclick="addText('c7', '邀請宗教人員協助')">邀請宗教人員</span>
+                </div>
+                <textarea id="c7" rows="2" placeholder="反思紀錄..."></textarea>
+            </div>
+
+            <div class="competency-item">
+                <div class="competency-title">8. 倫理與法律考量</div>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('c8', '維護個案隱私')">維護隱私</span>
+                    <span class="tag" onclick="addText('c8', '遵守專業倫理規範')">遵守倫理</span>
+                    <span class="tag" onclick="addText('c8', '尊重自主權')">尊重自主權</span>
+                </div>
+                <textarea id="c8" rows="2" placeholder="反思紀錄..."></textarea>
+            </div>
+
+            <div class="competency-item">
+                <div class="competency-title">9. 記錄與報告</div>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('c9', '撰寫客觀具體的紀錄')">撰寫客觀紀錄</span>
+                    <span class="tag" onclick="addText('c9', '保護敏感資訊')">保護敏感資訊</span>
+                    <span class="tag" onclick="addText('c9', '於交班時報告重點')">交班報告</span>
+                </div>
+                <textarea id="c9" rows="2" placeholder="反思紀錄..."></textarea>
+            </div>
+
+            <div class="competency-item">
+                <div class="competency-title">10. 持續學習與發展</div>
+                <div class="tag-container">
+                    <span class="tag" onclick="addText('c10', '參與靈性關懷課程')">參與課程</span>
+                    <span class="tag" onclick="addText('c10', '閱讀相關文獻')">閱讀文獻</span>
+                    <span class="tag" onclick="addText('c10', '尋求督導協助')">尋求督導</span>
+                </div>
+                <textarea id="c10" rows="2" placeholder="反思紀錄..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Bar -->
+    <div class="action-bar">
+        <a href="index.html" class="btn btn-back">⬅️ 回紀錄表</a>
+        <button class="btn btn-copy" onclick="copyResult()">📋 複製反思紀錄</button>
+    </div>
+
+    <script>
+        function addText(elementId, text) {
+            const el = document.getElementById(elementId);
+            if (el.value) {
+                if (!el.value.includes(text)) {
+                    el.value += '、' + text;
+                }
+            } else {
+                el.value = text;
+            }
+        }
+
+        function copyResult() {
+            const date = new Date().toLocaleDateString('zh-TW');
+            let content = `【靈性關懷自我反思 EAPC-10】\n日期：${date}\n\n`;
+            
+            for(let i=1; i<=10; i++) {
+                const val = document.getElementById('c'+i).value;
+                if(val) {
+                    const titles = [
+                        "辨識靈性需求", "評估靈性與宗教", "尊重文化與價值", "展現同理心", "運用溝通技巧",
+                        "自我覺察與反思", "團隊合作與轉介", "倫理與法律考量", "記錄與報告", "持續學習與發展"
+                    ];
+                    content += `${i}. ${titles[i-1]}：${val}\n`;
+                }
+            }
+
+            if(content.length < 50) {
+                alert("請至少填寫一項反思紀錄！");
+                return;
+            }
+
+            navigator.clipboard.writeText(content).then(() => {
+                alert('已複製反思紀錄！');
+            }).catch(err => {
+                console.error('複製失敗:', err);
+                alert('複製失敗，請手動複製。');
+            });
+        }
+    </script>
+</body>
+</html>
